@@ -21,8 +21,7 @@ class FacebookAuthenticator < BaseAuthenticator
         uid: user[:id],
         provider: PROVIDER
       }
-
-      Login.find_or_create_by!(login_attributes)
+      Login.find_or_create_by(login_attributes)
     end
 
     def access_token
