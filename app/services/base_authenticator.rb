@@ -13,7 +13,7 @@ class BaseAuthenticator
     if login.present?
       connect_login_to_account(login, user)
     else
-      user_model = create_user
+      user_model = create_user(user)
       user_model.login = create_login_from_account(user)
       return user_model.login
     end
@@ -37,9 +37,10 @@ class BaseAuthenticator
       response
     end
 
-    def create_user
+    def create_user(user)
       user_model = RailsApiAuth.user_model_relation.to_s.classify.constantize.new
       user_model.build_login
+      user_model.nickname = user[:name].gsub(/[^0-9A-Za-z]/, '')
       user_model.save
       return user_model
     end
